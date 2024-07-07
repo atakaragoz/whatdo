@@ -1,5 +1,7 @@
 # manages master todo list and done list
 import json
+import random
+import datetime
 
 
 class TodoItem:
@@ -107,3 +109,39 @@ def remove_completed_items(todo_list):
 def save_to_completed(items, filename="completed.json"):
     with open(filename, "w") as f:
         json.dump([todo.to_dict() for todo in items], f, indent=4)
+
+
+def return_top(todos):
+    """returns the most important item in the todo list based on priority and due_date, else returns a random item"""
+    # filter out completed items
+    incomplete_todos = [todo for todo in todos if not todo.completed]
+
+    if not incomplete_todos:
+        return None  # if all items are completed, return None
+
+    # sort by priority and due_date
+    sorted_todos = sorted(
+        incomplete_todos,
+        key=lambda x: (
+            x.priority if x.priority is not None else float("inf"),
+            x.due_date if x.due_date is not None else datetime.datetime.max,
+        ),
+    )
+
+    # return the top item
+    top_item = sorted_todos[0]
+
+    # if there are multiple items with the same priority and due date, return a random one from those
+    top_priority = top_item.priority
+    top_due_date = top_item.due_date
+
+    same_priority_and_due_date = [
+        todo
+        for todo in sorted_todos
+        if todo.priority == top_priority and todo.due_date == top_due_date
+    ]
+
+    if same_priority_and_due_date:
+        return random.choice(same_priority_and_due_date)
+    else:
+        return top_item

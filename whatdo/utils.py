@@ -3,11 +3,27 @@
 import uuid
 import os
 import re
-from todo import TodoItem
+import datetime
+from .todo import TodoItem
+from .config import work_weekends
 
 
 def generate_id():
     return str(uuid.uuid4())
+
+
+def generate_date_time_name():
+    """Generates the date time string for the daily note file name. YYYY-MM-DD.md"""
+    return datetime.datetime.now().strftime("%Y-%m-%d")
+
+
+def check_exists_or_create(path):
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+
+def check_weekend():
+    return datetime.datetime.today().weekday() in [5, 6]
 
 
 def parse_markdown_to_todo_list(markdown):

@@ -1,13 +1,13 @@
 import click
 import datetime
-from todo import (
+from .todo import (
     TodoItem,
     load_todos,
     save_todos,
     remove_completed_items,
     save_to_completed,
 )
-from config import (
+from .config import (
     obsidian_vault_path,
     obsidian_vault_name,
     daily_notes_path,
@@ -17,7 +17,7 @@ from config import (
     work_weekends,
 )
 
-from utils import generate_id
+from .utils import generate_id
 
 
 @click.group()
@@ -35,13 +35,20 @@ def cli():
     default=None,
     help="The estimated time required for the todo item.",
 )
-@click.option("--tags", default=None, help="The tags associated with the todo item.")
+@click.option(
+    "--tags",
+    default=None,
+    help="The tags associated with the todo item. expected as a comma separated string",
+)
 @click.option("--parent_id", default=None, help="The ID of the parent todo item.")
 def add(item, due_date, priority, estimated_time, tags, parent_id=None):
     """Add a new todo item."""
     todos = load_todos(todo_file_path)
-    new_item = TodoItem(item, generate_id(), due_date, priority, estimated_time, tags)
-    if parent_id:
+    tags_list = [tag.strip() for tag in tags.split(",")] if tags else None
+    new_item = TodoItem(
+        item, generate_id(), due_date, priority, estimated_time, tags=tags_list
+    )
+    if parent_id is not None:
         for todo_item in todos:
             if todo_item.item_id == parent_id:
                 todo_item.add_sub_item(new_item)
@@ -61,7 +68,7 @@ def add(item, due_date, priority, estimated_time, tags, parent_id=None):
         todos.append(
             new_item,
         )
-        save_todos(todos)
+        save_todos(todos, todo_file_path)
         click.echo(f"Added todo item: {item}")
 
 
