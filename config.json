@@ -1,0 +1,9 @@
+{
+    "obsidian-vault_path": "path/to/your/obsidian-vault",
+    "obsidian-vault_name": "your-vault-name",
+    "daily-notes_path": "path/to/your/daily-notes-folder",
+    "master-tasks_path": "path/to/your/master-tasks-folder",
+    "completed-tasks_path": "path/to/your/completed-tasks-folder",
+    "hours-per-day": 8,
+    "work-weekends": false
+}
