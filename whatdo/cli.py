@@ -112,7 +112,7 @@ def print_item(item, level=0):
 @click.command()
 def list_items():
     """List all todo items."""
-    todo_list = load_todos()
+    todo_list = load_todos(todo_file_path)
     if not todo_list:
         click.echo("No todo items found.")
         return
@@ -140,7 +140,7 @@ def complete(id):
     todo_list = load_todos()
     for item in todo_list:
         if mark_item_complete(item, id):
-            save_todos(todo_list)
+            save_todos(todo_list, todo_file_path)
             click.echo(f"Marked todo item with ID: {id} as complete")
             return
     click.echo(f"Todo item with ID: {id} not found")

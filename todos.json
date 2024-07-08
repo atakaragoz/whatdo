@@ -1,53 +1,16 @@
 [
     {
-        "item": "I am an incomplete item",
-        "item_id": "1cabd868-6cb1-42b9-9820-8ab564accfad",
+        "item": "need to make ROIs for Zach's 8vid data using the MNI152 template?",
+        "item_id": "3252a35a-dd6c-42c1-a87f-785f5d89f286",
         "due_date": null,
-        "priority": null,
+        "priority": "2",
         "estimated_time": null,
-        "tags": null,
+        "tags": [
+            "8vid"
+        ],
         "completed": false,
+        "date_completed": null,
+        "parent_id": null,
         "sub_items": []
-    },
-    {
-        "item": "I am a complete item",
-        "item_id": "916ec5c7-01ca-4ad3-b84a-e7dff81a44f9",
-        "due_date": null,
-        "priority": null,
-        "estimated_time": null,
-        "tags": null,
-        "completed": true,
-        "sub_items": []
-    },
-    {
-        "item": "I am an incomplete item with complete sub-items",
-        "item_id": "6e0eadbc-98c7-452f-aed0-646dadbdca36",
-        "due_date": null,
-        "priority": null,
-        "estimated_time": null,
-        "tags": null,
-        "completed": false,
-        "sub_items": [
-            {
-                "item": "I am a complete sub-item",
-                "item_id": "55992b70-4b82-478d-9d43-8ea3ba6c8939",
-                "due_date": null,
-                "priority": null,
-                "estimated_time": null,
-                "tags": null,
-                "completed": true,
-                "sub_items": []
-            },
-            {
-                "item": "I am an incomplete sub-item",
-                "item_id": "0423dab2-7018-4044-a41f-bf9cf24fd2eb",
-                "due_date": null,
-                "priority": null,
-                "estimated_time": null,
-                "tags": null,
-                "completed": false,
-                "sub_items": []
-            }
-        ]
     }
 ]
