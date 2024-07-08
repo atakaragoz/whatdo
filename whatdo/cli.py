@@ -1,5 +1,7 @@
 import click
 import datetime
+from rich.console import Console
+from rich.tree import Tree
 from .todo import (
     TodoItem,
     load_todos,
@@ -18,6 +20,9 @@ from .config import (
 )
 
 from .utils import generate_id
+
+# initialize rich console
+console = Console()
 
 
 @click.group()
@@ -94,31 +99,36 @@ def update():
     click.echo("Updated todo list")
 
 
-def print_item(item, level=0):
-    indent = "  " * level
-    click.echo(f"{indent}ID: {item.item_id}")
-    click.echo(f"{indent}Item: {item.item}")
-    click.echo(f"{indent}Due Date: {item.due_date}")
-    click.echo(f"{indent}Priority: {item.priority}")
-    click.echo(f"{indent}Estimated Time: {item.estimated_time}")
-    click.echo(f"{indent}Tags: {item.tags}")
-    click.echo(f"{indent}Completed: {item.completed}")
-    click.echo(f"{indent}Date Completed: {item.date_completed}")
-    click.echo(f"{indent}" + "-" * 20)
-    for sub_item in item.sub_items:
-        print_item(sub_item, level + 1)
-
-
 @click.command()
 def list_items():
     """List all todo items."""
     todo_list = load_todos(todo_file_path)
     if not todo_list:
-        click.echo("No todo items found.")
+        console.print("No todo items found.", style="bold red")
         return
 
+    tree = Tree("Todo List", guide_style="bold cyan")
     for item in todo_list:
-        print_item(item)
+        add_to_tree(tree, item)
+
+    console.print(tree)
+
+
+def add_to_tree(tree, item, level=0):
+    item_info = (
+        f"[bold green]Item:[/bold green] {item.item}\n"
+        f"[bold blue]ID:[/bold blue] {item.item_id}\n"
+        f"[bold cyan]Due Date:[/bold cyan] {item.due_date}\n"
+        f"[bold magenta]Priority:[/bold magenta] {item.priority}\n"
+        f"[bold cyan]Estimated Time:[/bold cyan] {item.estimated_time}\n"
+        f"[bold cyan]Tags:[/bold cyan] {item.tags}\n"
+        f"[bold cyan]Completed:[/bold cyan] {item.completed}\n"
+        f"[bold cyan]Date Completed:[/bold cyan] {item.date_completed}"
+    )
+    branch = tree.add(item_info, guide_style="bold bright_black")
+
+    for sub_item in item.sub_items:
+        add_to_tree(branch, sub_item, level + 1)
 
 
 def mark_item_complete(item, id):
